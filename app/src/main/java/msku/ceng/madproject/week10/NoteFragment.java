@@ -1,5 +1,6 @@
 package msku.ceng.madproject.week10;
 
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -15,12 +16,14 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+
 /**
  * A fragment representing a list of Items.
  */
 public class NoteFragment extends Fragment {
 
-    private OnNoteListInteractionListener listener;
+    private OnNoteListInteractionsListener listener;
+
 
     // TODO: Customize parameter argument names
     private static final String ARG_NOTES = "notes";
@@ -41,7 +44,7 @@ public class NoteFragment extends Fragment {
     public static NoteFragment newInstance(ArrayList<Note> notes) {
         NoteFragment fragment = new NoteFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_NOTES, notes);
+        args.putSerializable(ARG_NOTES, notes );
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,7 +54,7 @@ public class NoteFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            notes = (ArrayList<Note>) getArguments().getSerializable(ARG_NOTES);
+            notes = (ArrayList<Note>) getArguments().getSerializable(ARG_NOTES) ;
         }
     }
 
@@ -70,20 +73,18 @@ public class NoteFragment extends Fragment {
         return view;
     }
 
-    public interface OnNoteListInteractionListener {
+    public interface OnNoteListInteractionsListener {
         void onNoteSelected(Note note);
-
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof OnNoteListInteractionListener) {
-            listener = (OnNoteListInteractionListener) context;
+        if(context instanceof OnNoteListInteractionsListener) {
+            listener = (OnNoteListInteractionsListener) context;
         }
         else {
-            throw new RuntimeException(context.getClass().getName()
-                    + "should implement OnNoteListInteractionListener");
+            throw new RuntimeException(context.getClass().getName() + " should implement OnNoteListInteractionsListener");
         }
     }
 

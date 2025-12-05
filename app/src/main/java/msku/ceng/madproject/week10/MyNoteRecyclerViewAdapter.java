@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import msku.ceng.madproject.week10.databinding.FragmentNoteBinding;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,38 +17,35 @@ import java.util.List;
 public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Note> notes;
+    private NoteFragment.OnNoteListInteractionsListener listener;
 
-    private NoteFragment.OnNoteListInteractionListener listener;
-
-    public MyNoteRecyclerViewAdapter(ArrayList<Note> notes, NoteFragment.OnNoteListInteractionListener listener) {
+    public MyNoteRecyclerViewAdapter(ArrayList<Note> notes, NoteFragment.OnNoteListInteractionsListener listener) {
         this.notes = notes;
         this.listener = listener;
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_note, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_note_list, parent, false);
         return new ViewHolder(view);
-
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-
+        position = holder.getAdapterPosition();
         holder.mItem = notes.get(position);
         holder.mHeaderView.setText(notes.get(position).getHeader());
-        holder.mDateView.setText(new SimpleDateFormat("yyyy-MM-dd").format(notes.get(position).getDate()));
+        holder.mContentView.setText(new SimpleDateFormat("yyyy-MM-dd").format(notes.get(position).getDate()));
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null != listener){
+                if (null != listener) {
                     listener.onNoteSelected(holder.mItem);
                 }
             }
         });
 
-        if (position % 2 == 1) {
+        if(position % 2 == 1) {
             holder.itemView.setBackgroundColor(Color.WHITE);
         }
         else {
@@ -63,6 +60,7 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mHeaderView;
+        public final TextView mContentView;
         public final TextView mDateView;
 
         public final View mView;
@@ -72,6 +70,7 @@ public class MyNoteRecyclerViewAdapter extends RecyclerView.Adapter<MyNoteRecycl
             super(view);
             mView = view;
             mHeaderView = view.findViewById(R.id.note_header);
+            mContentView = view.findViewById(R.id.note_date);
             mDateView = view.findViewById(R.id.note_date);
         }
 
